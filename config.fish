@@ -3,6 +3,7 @@ if status is-interactive
     jump shell fish | source
     fish_vi_key_bindings
     fish_add_path ~/opt/venv/bin
+    fish_add_path ~/.local/bin
 
     # aliases
     alias ll='ls -al'
