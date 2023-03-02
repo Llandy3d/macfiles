@@ -2,6 +2,7 @@
 
 
 ln -s $(pwd)/init.vim $HOME/.config/nvim
+ln -s $(pwd)/coc-settings.json $HOME/.config/nvim
 ln -s $(pwd)/python.vim $HOME/.vim/after/ftplugin
 ln -s $(pwd)/config.fish $HOME/.config/fish
 ln -s $(pwd)/alacritty.yml $HOME/.config/alacritty
