@@ -79,6 +79,12 @@ Plug 'vim-python/python-syntax' " better python syntax highlighting
 Plug 'preservim/tagbar'
 Plug 'cespare/vim-toml' " toml syntax highlight
 Plug 'ekalinin/Dockerfile.vim'
+Plug 'EdenEast/nightfox.nvim'
+Plug 'sainnhe/everforest'
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+Plug 'RRethy/nvim-base16'
+Plug 'Shatur/neovim-ayu'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 " Initialize plugin system
 call plug#end()
@@ -150,8 +156,17 @@ let NERDTreeShowHidden=1 " show . files
 " close vim if the only window is nerdtree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+if (has("termguicolors"))
+  set termguicolors
+endif
+
 " one dark theme
-colorscheme onedark
+" colorscheme onedark
+
+
+set background=light
+let g:everforest_background = 'soft'
+colorscheme everforest
 
 " show buffer line on top
 let g:airline#extensions#tabline#enabled = 1
@@ -159,10 +174,6 @@ let g:airline_powerline_fonts = 1
 
 " Set gitgutter sign priority to 0 so that linter sign have priority
 let g:gitgutter_sign_priority = 0
-
-if (has("termguicolors"))
-  set termguicolors
-endif
 
 " linting configuration
 " Use ale for having linting without saving the buffer
@@ -178,7 +189,7 @@ let g:ale_fixers = {
 
 let g:ale_fix_on_save = 1
 
-" virtualenv support 
+" virtualenv support
 " NOTE: to be tested
 "py3 << EOF
 "import os, sys, pathlib
@@ -193,7 +204,7 @@ let g:ale_fix_on_save = 1
 " vim-go
 
 " disable vim-go :GoDef short cut (gd)
-" this will be handled by coc 
+" this will be handled by coc
 let g:go_def_mapping_enabled = 0
 
 """"""""""""""""""""""""""
@@ -325,17 +336,17 @@ autocmd FileType python,go autocmd BufWritePre <buffer> :call <SID>StripTrailing
 
 " " this function keeps state so that the cursor doesn't jump on the last
 " " changed line when saving and removing whitespaces
-" function! <SID>StripTrailingWhitespaces()
-"     " Preparation: save last search, and cursor position.
-"     let _s=@/
-"     let l = line(".")
-"     let c = col(".")
-"     " Do the business:
-"     %s/\s\+$//e
-"     " Clean up: restore previous search history, and cursor position
-"     let @/=_s
-"     call cursor(l, c)
-" endfunction
+function! <SID>StripTrailingWhitespaces()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %s/\s\+$//e
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 "     WIP
@@ -355,6 +366,14 @@ command! -nargs=* -bang -complete=dir RG call RipgrepFzf(<f-args>, <bang>0)
 """"""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " let vim use terminal transparency
-hi Normal guibg=NONE ctermbg=NONE
+" hi Normal guibg=NONE ctermbg=NONE
 
 nmap <F8> :TagbarToggle<CR>
+
+lua <<EOF
+require('nvim-treesitter.configs').setup {
+  ensure_installed = { 'c', 'cpp', 'python', 'rust', 'go', 'lua', 'vim' },
+  highlight = { enable = true },
+  indent = { enable = true },
+}
+EOF
