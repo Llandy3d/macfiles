@@ -85,6 +85,8 @@ Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
 Plug 'RRethy/nvim-base16'
 Plug 'Shatur/neovim-ayu'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'windwp/nvim-ts-autotag'
+
 
 " Initialize plugin system
 call plug#end()
@@ -306,7 +308,10 @@ nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
 
 let g:coc_global_extensions = [
     \ 'coc-pyright',
-    \ 'coc-rust-analyzer'
+    \ 'coc-rust-analyzer',
+    \ 'coc-svelte',
+    \ 'coc-json',
+    \ 'coc-tsserver'
     \ ]
 
 " use onedark colors for Error & Warning
@@ -372,8 +377,15 @@ nmap <F8> :TagbarToggle<CR>
 
 lua <<EOF
 require('nvim-treesitter.configs').setup {
-  ensure_installed = { 'c', 'cpp', 'python', 'rust', 'go', 'lua', 'vim' },
+  ensure_installed = { 'c', 'cpp', 'python', 'rust', 'go', 'lua', 'vim', 'svelte', 'javascript', 'typescript' },
   highlight = { enable = true },
   indent = { enable = true },
+  autotag = { enable = true },
 }
 EOF
+
+" vim-commentary config for commenting in svelte files
+autocmd FileType svelte setlocal commentstring=<!--\ %s\ -->
+
+" 2 spaces for svelte indenting
+au FileType svelte,javascript,typescript,html,css setl ts=2 sts=2 sw=2
