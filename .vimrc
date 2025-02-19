@@ -337,7 +337,7 @@ highlight link CocWarningSign Boolean
 " endfunction
 
 " automatically remove trailing whitespaces for specified languages
-autocmd FileType python,go autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
+autocmd FileType python,go,rust,typescript,javascript autocmd BufWritePre <buffer> :call <SID>StripTrailingWhitespaces()
 
 " " this function keeps state so that the cursor doesn't jump on the last
 " " changed line when saving and removing whitespaces
@@ -388,4 +388,4 @@ EOF
 autocmd FileType svelte setlocal commentstring=<!--\ %s\ -->
 
 " 2 spaces for svelte indenting
-au FileType svelte,javascript,typescript,html,css setl ts=2 sts=2 sw=2
+au FileType svelte,javascript,typescript,html,css,json setl ts=2 sts=2 sw=2
